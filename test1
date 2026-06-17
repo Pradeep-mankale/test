@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Starting bulk disable operation from users.txt..."
+echo "-------------------------------------------------"
+
+while IFS= read -r user; do
+    # Remove any trailing carriage returns (helpful if the file was made in Windows)
+    user=$(echo "$user" | tr -d '\r')
+
+    if [[ -n "$user" ]]; then
+        echo "Processing: $user..."
+        
+        # Execute the Azure CLI command and check if it was successful
+        if az ad user update --id "$user" --account-enabled false; then
+            echo " [Success] Account disabled for $user"
+        else
+            echo "  [Error] Failed to disable $user"
+        fi
+    fi
+done < users.txt
+
+echo "-------------------------------------------------"
+echo "Script execution completed."
+
+
