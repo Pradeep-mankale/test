@@ -1,1 +1,9 @@
 #Hello
+name: test
+on: workflow_dispatch
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: name1
+        run: echo "hello world"
